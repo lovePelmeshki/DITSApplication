@@ -1,0 +1,47 @@
+﻿<Window x:Class="testDatabase.IncidentNewView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:testDatabase"
+        mc:Ignorable="d"
+        Title="IncidentNewView" Width="400" SizeToContent="Height">
+    <StackPanel Margin="10" Orientation="Vertical">
+        <Button Name="AutoFillButton" Content="AutoFill" Margin="5" Click="AutoFillButton_Click"/>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Title</Label>
+            <TextBox Name="TitleTextBox"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Линия</Label>
+            <ComboBox Name="LineComboBox" SelectedItem="---"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Станция</Label>
+            <ComboBox Name="StationComboBox"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Пост</Label>
+            <ComboBox Name="PostComboBox"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Description</Label>
+            <TextBox Name="DescriptionTextBox"  Height="80"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Open date</Label>
+            <DatePicker Name="OpenDatePicker"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Employee</Label>
+            <ComboBox Name="EmployeeComboBox" DisplayMemberPath="Firstname" SelectedValuePath="Id"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Status</Label>
+            <ComboBox Name="StatusComboBox" DisplayMemberPath="Description" SelectedValuePath="Id"/>
+        </StackPanel>
+        <Button Name="CreateIncidentButton" Content="Create" Margin="5" Height="40" Click="CreateIncidentButton_Click"></Button>
+
+
+    </StackPanel>
+</Window>

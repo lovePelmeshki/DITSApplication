@@ -1,0 +1,61 @@
+﻿<Window x:Class="testDatabase.IncidentEditView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:testDatabase"
+        mc:Ignorable="d"
+        Title="IncidentEditView"  Width="800" SizeToContent="Height">
+    <StackPanel Margin="10" Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Id</Label>
+            <TextBlock Name="IdTextBlock" Text="{Binding Id}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Title</Label>
+            <TextBox Name="TitleTextBox" Text="{Binding Title}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Line</Label>
+            <ComboBox Name="LineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Station</Label>
+            <ComboBox Name="StationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Post</Label>
+            <ComboBox Name="PostComboBox" SelectedValuePath="Id" DisplayMemberPath="PostName"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Description</Label>
+            <TextBox Name="DescriptionTextBox" Text="{Binding Description}" Height="80"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Open date</Label>
+            <DatePicker Name="OpenDatePicker" SelectedDate="{Binding OpenDate}"/>
+        </StackPanel>
+   
+
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Respoinder</Label>
+            <ComboBox Name="RespoinderComboBox" DisplayMemberPath="Firstname" SelectedValuePath="Id" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Status</Label>
+            <ComboBox x:Name="StatusComboBox" DisplayMemberPath="Description" SelectedValuePath="Id" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Close Date</Label>
+            <DatePicker Name="CloseDatePicker" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Comment</Label>
+            <TextBox Name="CommentTextBox" Text="{Binding Comment}" Height="80"/>
+        </StackPanel>
+        <Button Name="EditButton" Content="Edit" Click="EditButton_Click" Margin="5" Height="40"/>
+        <DataGrid x:Name="HistoryDataGrid"/>
+
+
+    </StackPanel>
+</Window>
