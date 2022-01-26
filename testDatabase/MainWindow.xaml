@@ -42,9 +42,33 @@
 
             </StackPanel>
         </TabItem>
-        <TabItem Header="Employees" Width="80"></TabItem>
+        <TabItem Header="Maintenance" Width="80"></TabItem>
         <TabItem Header="Equipment" Width="80"></TabItem>
-        <TabItem Header="Stations" Width="80"></TabItem>
+        <TabItem Header="Stations" Width="80">
+            <StackPanel Orientation="Vertical">
+                <DataGrid x:Name="StationsDataGrid" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Линия" Binding="{Binding Path=LineName, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Станция" Binding="{Binding Path=StationName, Mode=OneWay}"/>
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Employees" Width="80">
+            <StackPanel Orientation="Vertical">
+                <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Участок" Binding="{Binding Path=DepartmentName, Mode=OneWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </TabItem>
         
     
     </TabControl>

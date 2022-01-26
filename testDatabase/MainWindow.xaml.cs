@@ -16,9 +16,12 @@ namespace testDatabase
         {
             InitializeComponent();
             RefreshIcintentsData();
+            RefreshEmployeesData();
+            RefreshStationsData();
         }
 
 
+        #region Incident
 
         private void icindentsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -102,16 +105,6 @@ namespace testDatabase
 
 
         }
-
-        public static List<Employee> GetAllEmployees()
-        {
-            using (ditsdbContext db = new ditsdbContext())
-            {
-                var employees = from emp in db.Employees
-                                select emp;
-                return employees.ToList();
-            }
-        }
         public static List<IncidentStatus> GetAllStatuses()
         {
             using (ditsdbContext db = new ditsdbContext())
@@ -141,6 +134,58 @@ namespace testDatabase
                               where h.IncidentId == incidentId
                               select h;
                 return history.ToList();
+            }
+        }
+
+        #endregion
+
+        #region Employees
+        public void RefreshEmployeesData()
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var employeeInfo = from emp in db.Employees
+                                   join dep in db.Departments
+                                   on emp.DepartmentId equals dep.Id
+                                   select new
+                                   {
+                                       Id = emp.Id,
+                                       Lastname = emp.Lastname,
+                                       Firstname = emp.Firstname,
+                                       Patronymic = emp.Patronymic,
+                                       DepartmentName = dep.DepartmentName
+                                   };
+                EmployeeDataGrid.ItemsSource = employeeInfo.ToList();
+            }
+            
+        }
+        public static List<Employee> GetAllEmployees()
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var employees = from emp in db.Employees
+                                select emp;
+                return employees.ToList();
+            }
+        }
+
+        #endregion
+
+        public void RefreshStationsData()
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var stationInfo = from s in db.Stations
+                                  join l in db.Lines
+                                  on s.LineId equals l.Id
+                                  select new
+                                  {
+                                      Id = s.Id,
+                                      LineName = l.LineName,
+                                      StationName = s.StationName,
+                                  };
+                StationsDataGrid.ItemsSource = stationInfo.ToList();
+
             }
         }
     }

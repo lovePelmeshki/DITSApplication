@@ -17,10 +17,13 @@ namespace testDatabase
         {
         }
 
+        public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Incident> Incidents { get; set; }
         public virtual DbSet<IncidentHistory> IncidentHistories { get; set; }
         public virtual DbSet<IncidentStatus> IncidentStatuses { get; set; }
+        public virtual DbSet<Line> Lines { get; set; }
+        public virtual DbSet<Station> Stations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,6 +38,17 @@ namespace testDatabase
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Cyrillic_General_CI_AS");
 
+            modelBuilder.Entity<Department>(entity =>
+            {
+                entity.ToTable("departments");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DepartmentName)
+                    .HasMaxLength(255)
+                    .HasColumnName("department_name");
+            });
+
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.ToTable("employees");
@@ -43,9 +57,24 @@ namespace testDatabase
                     .ValueGeneratedNever()
                     .HasColumnName("id");
 
+                entity.Property(e => e.DepartmentId).HasColumnName("department_id");
+
                 entity.Property(e => e.Firstname)
                     .HasMaxLength(255)
                     .HasColumnName("firstname");
+
+                entity.Property(e => e.Lastname)
+                    .HasMaxLength(255)
+                    .HasColumnName("lastname");
+
+                entity.Property(e => e.Patronymic)
+                    .HasMaxLength(255)
+                    .HasColumnName("patronymic");
+
+                entity.HasOne(d => d.Department)
+                    .WithMany(p => p.Employees)
+                    .HasForeignKey(d => d.DepartmentId)
+                    .HasConstraintName("FK_employees_departments");
             });
 
             modelBuilder.Entity<Incident>(entity =>
@@ -130,6 +159,37 @@ namespace testDatabase
                     .IsRequired()
                     .HasColumnType("ntext")
                     .HasColumnName("description");
+            });
+
+            modelBuilder.Entity<Line>(entity =>
+            {
+                entity.ToTable("line");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.LineName)
+                    .HasMaxLength(255)
+                    .HasColumnName("line_name");
+            });
+
+            modelBuilder.Entity<Station>(entity =>
+            {
+                entity.ToTable("stations");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.LineId).HasColumnName("line_id");
+
+                entity.Property(e => e.StationName)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("station_name");
+
+                entity.HasOne(d => d.Line)
+                    .WithMany(p => p.Stations)
+                    .HasForeignKey(d => d.LineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__stations__line_i__6754599E");
             });
 
             OnModelCreatingPartial(modelBuilder);
