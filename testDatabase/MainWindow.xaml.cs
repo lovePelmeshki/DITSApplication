@@ -24,6 +24,47 @@ namespace testDatabase
 
         #region Incident
 
+        public void RefreshIcintentsData()
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var incidentInfo = from inc in db.Incidents
+                                   from emp in db.Employees
+
+                                   where inc.EmployeeId == emp.Id
+
+                                   join station in db.Stations
+                                   on inc.StationId equals station.Id into stan
+                                   from station in stan.DefaultIfEmpty()
+
+                                   join post in db.Posts
+                                   on inc.PostId equals post.Id into p
+                                   from post in p.DefaultIfEmpty()
+
+                                   join status in db.IncidentStatuses
+                                   on inc.StatusId equals status.Id into st
+                                   from status in st.DefaultIfEmpty()
+
+
+                                   select new
+                                   {
+                                       Id = inc.Id,
+                                       Title = inc.Title,
+                                       Description = inc.Description,
+                                       Employee = emp.Lastname,
+                                       OpenDate = inc.OpenDate,
+                                       CloseDate = inc.CloseDate,
+                                       Status = status == null ? "---" : status.Description,
+                                       StationName = station == null ? "---" : station.StationName,
+                                       PostName = post == null ? "---" : post.PostName
+                                   };
+
+                icindentsDataGrid.ItemsSource = incidentInfo.ToList();
+                //var allIcindents = from ic in db.Incidents
+                //                   select ic;
+                //icindentsDataGrid.ItemsSource = allIcindents.ToList();
+            };
+        }
         private void icindentsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
@@ -39,39 +80,6 @@ namespace testDatabase
             IncidentNewView view = new IncidentNewView();
             view.Show();
         }
-
-        public void RefreshIcintentsData()
-        {
-            using (ditsdbContext db = new ditsdbContext())
-            {
-                var incidentInfo = from inc in db.Incidents
-                                   from emp in db.Employees
-                                   
-                                   where inc.EmployeeId == emp.Id
-                                   join status in db.IncidentStatuses
-                                   on inc.StatusId equals status.Id into st
-                                   from status in st.DefaultIfEmpty()
-                                   select new
-                                   {
-                                       Id = inc.Id,
-                                       Title = inc.Title,
-                                       Description = inc.Description,
-                                       Firstname = emp.Firstname,
-                                       Status = status == null ? "---" : status.Description
-                                   };
-
-                icindentsDataGrid.ItemsSource = incidentInfo.ToList();
-                //var allIcindents = from ic in db.Incidents
-                //                   select ic;
-                //icindentsDataGrid.ItemsSource = allIcindents.ToList();
-            };
-        }
-
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshIcintentsData();
-        }
-
         private void EditIcindentButton_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedIncident != null)
@@ -81,6 +89,11 @@ namespace testDatabase
             }
 
         }
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshIcintentsData();
+        }
+
 
         private void icindentsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -160,6 +173,16 @@ namespace testDatabase
             }
             
         }
+        public static Employee GetEmployee(int id)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var employee = (from emp in db.Employees
+                               where emp.Id == id
+                               select emp).FirstOrDefault();
+                return employee; 
+            }
+        }
         public static List<Employee> GetAllEmployees()
         {
             using (ditsdbContext db = new ditsdbContext())
@@ -190,7 +213,39 @@ namespace testDatabase
 
             }
         }
-        public Station FindStationById(int id)
+        public static List<Line> GetLines()
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var lines = from line in db.Lines select line;
+                return lines.ToList();
+            }
+        }
+        public static Line GetLine(int lineId)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var line = (from l in db.Lines
+                           where l.Id == lineId
+                            select l).FirstOrDefault();
+                return line;
+
+            }
+        }
+
+        public static Line GetLineByStationId(int stationId)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var line = (from l in db.Lines
+                           join station in db.Stations
+                           on l.Id equals station.LineId
+                           select l).FirstOrDefault();
+                return line;
+
+            }
+        }
+        public static Station GetStation(int id)
         {
             using (ditsdbContext db = new ditsdbContext())
             {
@@ -200,16 +255,28 @@ namespace testDatabase
                 return station;
             }
         }
+        public static Post GetPost(int id)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var post = (from p in db.Posts
+                            where p.Id == id
+                            select p).FirstOrDefault();
+                return post;
+            }
+        }
         private void StationsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (StationsDataGrid.SelectedValue != null)
             {
-                _selectedStation = FindStationById((int)StationsDataGrid.SelectedValue);
+                _selectedStation = GetStation((int)StationsDataGrid.SelectedValue);
                 StationInfo window = new StationInfo(_selectedStation);
                 window.Show();
             }
             
         }
+
+
 
         #endregion
 

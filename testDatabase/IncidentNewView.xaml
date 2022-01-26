@@ -14,15 +14,15 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Линия</Label>
-            <ComboBox Name="LineComboBox" SelectedItem="---"/>
+            <ComboBox Name="LineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="LineComboBox_SelectionChanged"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Станция</Label>
-            <ComboBox Name="StationComboBox"/>
+            <ComboBox Name="StationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName" SelectionChanged="StationComboBox_SelectionChanged"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Пост</Label>
-            <ComboBox Name="PostComboBox"/>
+            <ComboBox x:Name="PostComboBox" SelectedValuePath="Id" DisplayMemberPath="PostName"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Description</Label>

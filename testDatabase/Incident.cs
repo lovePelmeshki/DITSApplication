@@ -16,9 +16,13 @@ namespace testDatabase
         public int? ResponderId { get; set; }
         public DateTime? CloseDate { get; set; }
         public string Comment { get; set; }
+        public int? StationId { get; set; }
+        public int? PostId { get; set; }
 
         public virtual Employee Employee { get; set; }
+        public virtual Post Post { get; set; }
         public virtual IncidentStatus Responder { get; set; }
+        public virtual Station Station { get; set; }
         public virtual IncidentStatus Status { get; set; }
     }
 }

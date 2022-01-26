@@ -24,10 +24,13 @@
 >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Станция" Binding="{Binding Path=StationName, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Пост" Binding="{Binding Path=PostName, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Заголовок" Binding="{Binding Path=Title, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Описание" Binding="{Binding Path=Description, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Сотрудник" Binding="{Binding Path=Firstname, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Сотрудник" Binding="{Binding Path=Employee, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Дата открытия" Binding="{Binding Path=OpenDate, Mode=OneWay, StringFormat=dd.MM.yyyy}"/>
+                        <DataGridTextColumn Header="Дата закрытия" Binding="{Binding Path=CloseDate, Mode=OneWay, StringFormat=dd.MM.yyyy}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

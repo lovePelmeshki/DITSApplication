@@ -5,27 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:testDatabase"
         mc:Ignorable="d"
-        Title="IncidentEditView"  Width="800" SizeToContent="Height">
+        Title="{Binding Path=Id}"  Width="800" SizeToContent="Height">
     <StackPanel Margin="10" Orientation="Vertical">
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Id</Label>
-            <TextBlock Name="IdTextBlock" Text="{Binding Id}"/>
-        </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Title</Label>
             <TextBox Name="TitleTextBox" Text="{Binding Title}"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Line</Label>
-            <ComboBox Name="LineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName"/>
+            <TextBlock x:Name="LineTextBox" Text="{Binding LineName}" IsEnabled="False"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Station</Label>
-            <ComboBox Name="StationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName"/>
+            <TextBlock x:Name="StationTextBox" Text="{Binding StationName}" IsEnabled="False"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Post</Label>
-            <ComboBox Name="PostComboBox" SelectedValuePath="Id" DisplayMemberPath="PostName"/>
+            <TextBlock x:Name="PostTextBox" Text="{Binding PostName}" IsEnabled="False"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Description</Label>
@@ -38,8 +34,12 @@
    
 
         <StackPanel Orientation="Vertical" Margin="5">
+            <Label>Creator</Label>
+            <TextBlock x:Name="CreatorTextBlock" IsEnabled="False" Text="{Binding Lastname}" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="5">
             <Label>Respoinder</Label>
-            <ComboBox Name="RespoinderComboBox" DisplayMemberPath="Firstname" SelectedValuePath="Id" />
+            <ComboBox Name="RespoinderComboBox" DisplayMemberPath="Lastname" SelectedValuePath="Id" />
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Status</Label>
@@ -47,7 +47,7 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Close Date</Label>
-            <DatePicker Name="CloseDatePicker" />
+            <DatePicker Name="CloseDatePicker" SelectedDate="{Binding CloseDate}" />
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
             <Label>Comment</Label>

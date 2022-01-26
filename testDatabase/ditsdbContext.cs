@@ -23,6 +23,7 @@ namespace testDatabase
         public virtual DbSet<IncidentHistory> IncidentHistories { get; set; }
         public virtual DbSet<IncidentStatus> IncidentStatuses { get; set; }
         public virtual DbSet<Line> Lines { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Station> Stations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -97,7 +98,11 @@ namespace testDatabase
                     .HasColumnType("date")
                     .HasColumnName("open_date");
 
+                entity.Property(e => e.PostId).HasColumnName("post_id");
+
                 entity.Property(e => e.ResponderId).HasColumnName("responder_id");
+
+                entity.Property(e => e.StationId).HasColumnName("station_id");
 
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 
@@ -110,10 +115,20 @@ namespace testDatabase
                     .HasForeignKey(d => d.EmployeeId)
                     .HasConstraintName("FK__icindents__emplo__3D5E1FD2");
 
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.Incidents)
+                    .HasForeignKey(d => d.PostId)
+                    .HasConstraintName("FK_incidents_posts");
+
                 entity.HasOne(d => d.Responder)
                     .WithMany(p => p.IncidentResponders)
                     .HasForeignKey(d => d.ResponderId)
                     .HasConstraintName("FK_incidents_incident_status1");
+
+                entity.HasOne(d => d.Station)
+                    .WithMany(p => p.Incidents)
+                    .HasForeignKey(d => d.StationId)
+                    .HasConstraintName("FK_incidents_stations");
 
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.IncidentStatuses)
@@ -170,6 +185,25 @@ namespace testDatabase
                 entity.Property(e => e.LineName)
                     .HasMaxLength(255)
                     .HasColumnName("line_name");
+            });
+
+            modelBuilder.Entity<Post>(entity =>
+            {
+                entity.ToTable("posts");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.PostName)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("post_name");
+
+                entity.Property(e => e.StationId).HasColumnName("station_id");
+
+                entity.HasOne(d => d.Station)
+                    .WithMany(p => p.Posts)
+                    .HasForeignKey(d => d.StationId)
+                    .HasConstraintName("FK__posts__station_i__6A30C649");
             });
 
             modelBuilder.Entity<Station>(entity =>

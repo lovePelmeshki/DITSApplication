@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 
 namespace testDatabase
@@ -23,14 +13,27 @@ namespace testDatabase
         public IncidentEditView(Incident incident)
         {
             InitializeComponent();
-            
-            
+
+
             DataContext = incident;
             _incident = incident;
             HistoryDataGrid.ItemsSource = MainWindow.GetIncidentHistoryById(_incident.Id);
             RespoinderComboBox.ItemsSource = MainWindow.GetAllEmployees();
             StatusComboBox.ItemsSource = MainWindow.GetAllStatuses();
             StatusComboBox.SelectedValue = incident.StatusId;
+            StationTextBox.Text = MainWindow.GetStation((int)incident.StationId).StationName;
+            if (incident.PostId != null)
+            {
+                PostTextBox.Text = MainWindow.GetPost((int)incident.PostId).PostName;
+            }
+            LineTextBox.Text = MainWindow.GetLineByStationId((int)incident.StationId).LineName;
+            if (incident.EmployeeId !=null)
+            {
+                CreatorTextBlock.Text = MainWindow.GetEmployee((int)incident.EmployeeId).Lastname;
+            }
+            RespoinderComboBox.SelectedValue = incident.ResponderId;
+
+
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
