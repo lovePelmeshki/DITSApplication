@@ -46,7 +46,12 @@
         <TabItem Header="Equipment" Width="80"></TabItem>
         <TabItem Header="Stations" Width="80">
             <StackPanel Orientation="Vertical">
-                <DataGrid x:Name="StationsDataGrid" AutoGenerateColumns="False">
+                <DataGrid x:Name="StationsDataGrid" 
+                          AutoGenerateColumns="False"
+                          MouseDoubleClick="StationsDataGrid_MouseDoubleClick"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          SelectedValuePath="Id">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Линия" Binding="{Binding Path=LineName, Mode=OneWay}"/>

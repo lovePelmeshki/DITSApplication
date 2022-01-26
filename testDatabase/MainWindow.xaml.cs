@@ -12,6 +12,7 @@ namespace testDatabase
     public partial class MainWindow : Window
     {
         public Incident _selectedIncident = null;
+        public Station _selectedStation = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -171,6 +172,7 @@ namespace testDatabase
 
         #endregion
 
+        #region Stations
         public void RefreshStationsData()
         {
             using (ditsdbContext db = new ditsdbContext())
@@ -188,5 +190,29 @@ namespace testDatabase
 
             }
         }
+        public Station FindStationById(int id)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var station = (from s in db.Stations
+                               where s.Id == id
+                               select s).FirstOrDefault();
+                return station;
+            }
+        }
+        private void StationsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (StationsDataGrid.SelectedValue != null)
+            {
+                _selectedStation = FindStationById((int)StationsDataGrid.SelectedValue);
+                StationInfo window = new StationInfo(_selectedStation);
+                window.Show();
+            }
+            
+        }
+
+        #endregion
+
+
     }
 }
