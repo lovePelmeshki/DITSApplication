@@ -142,15 +142,27 @@ namespace testDatabase
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Description).HasColumnName("description");
+                entity.Property(e => e.AutorId).HasColumnName("autor_id");
 
-                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+                entity.Property(e => e.CloseDate)
+                    .HasColumnType("date")
+                    .HasColumnName("close_date");
+
+                entity.Property(e => e.Comment).HasColumnName("comment");
+
+                entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.IncidentId).HasColumnName("incident_id");
 
                 entity.Property(e => e.OpenDate)
                     .HasColumnType("date")
                     .HasColumnName("open_date");
+
+                entity.Property(e => e.PostId).HasColumnName("post_id");
+
+                entity.Property(e => e.RespoinderId).HasColumnName("respoinder_id");
+
+                entity.Property(e => e.StationId).HasColumnName("station_id");
 
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 

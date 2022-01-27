@@ -11,13 +11,13 @@ namespace testDatabase
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime? OpenDate { get; set; }
+        public int? StationId { get; set; }
+        public int? PostId { get; set; }
         public int? EmployeeId { get; set; }
         public int? StatusId { get; set; }
         public int? ResponderId { get; set; }
         public DateTime? CloseDate { get; set; }
         public string Comment { get; set; }
-        public int? StationId { get; set; }
-        public int? PostId { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual Post Post { get; set; }

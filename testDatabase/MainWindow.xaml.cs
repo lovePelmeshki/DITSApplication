@@ -13,6 +13,7 @@ namespace testDatabase
     {
         public Incident _selectedIncident = null;
         public Station _selectedStation = null;
+        private int _selectedStatus = -1;
         public MainWindow()
         {
             InitializeComponent();
@@ -28,6 +29,11 @@ namespace testDatabase
         {
             using (ditsdbContext db = new ditsdbContext())
             {
+                var filter = from st in db.IncidentStatuses
+                             select st;
+
+                IncidentFilterComboBox.ItemsSource = filter.ToList();
+
                 var incidentInfo = from inc in db.Incidents
                                    from emp in db.Employees
 
@@ -44,6 +50,7 @@ namespace testDatabase
                                    join status in db.IncidentStatuses
                                    on inc.StatusId equals status.Id into st
                                    from status in st.DefaultIfEmpty()
+                                  
 
 
                                    select new
@@ -148,6 +155,48 @@ namespace testDatabase
                               where h.IncidentId == incidentId
                               select h;
                 return history.ToList();
+            }
+        }
+        private void IncidentFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IncidentFilterComboBox.SelectedValue != null)
+            {
+                _selectedStatus = (int)IncidentFilterComboBox.SelectedValue;
+                using (ditsdbContext db = new ditsdbContext())
+                {
+                    var incidentInfo = from inc in db.Incidents
+                                       from emp in db.Employees
+
+                                       where inc.EmployeeId == emp.Id
+
+                                       join station in db.Stations
+                                       on inc.StationId equals station.Id into stan
+                                       from station in stan.DefaultIfEmpty()
+
+                                       join post in db.Posts
+                                       on inc.PostId equals post.Id into p
+                                       from post in p.DefaultIfEmpty()
+
+                                       join status in db.IncidentStatuses
+                                       on inc.StatusId equals status.Id
+                                       where status.Id == _selectedStatus
+
+
+
+                                       select new
+                                       {
+                                           Id = inc.Id,
+                                           Title = inc.Title,
+                                           Description = inc.Description,
+                                           Employee = emp.Lastname,
+                                           OpenDate = inc.OpenDate,
+                                           CloseDate = inc.CloseDate,
+                                           Status = status == null ? "---" : status.Description,
+                                           StationName = station == null ? "---" : station.StationName,
+                                           PostName = post == null ? "---" : post.PostName
+                                       };
+                    icindentsDataGrid.ItemsSource = incidentInfo.ToList();
+                }
             }
         }
 
@@ -278,8 +327,8 @@ namespace testDatabase
 
 
 
-        #endregion
 
+        #endregion
 
     }
 }

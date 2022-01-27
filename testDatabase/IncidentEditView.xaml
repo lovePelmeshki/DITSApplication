@@ -34,7 +34,7 @@
    
 
         <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Creator</Label>
+            <Label>Автор</Label>
             <TextBlock x:Name="CreatorTextBlock" IsEnabled="False" Text="{Binding Lastname}" />
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="5">
@@ -54,7 +54,26 @@
             <TextBox Name="CommentTextBox" Text="{Binding Comment}" Height="80"/>
         </StackPanel>
         <Button Name="EditButton" Content="Edit" Click="EditButton_Click" Margin="5" Height="40"/>
-        <DataGrid x:Name="HistoryDataGrid"/>
+        <DataGrid x:Name="HistoryDataGrid" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"/>
+                <DataGridTextColumn Header="Incident Id" Binding="{Binding Path=IncidentId}"/>
+                <DataGridTextColumn Header="Line" Binding="{Binding Path=Line}"/>
+                <DataGridTextColumn Header="Station" Binding="{Binding Path=Station}"/>
+                <DataGridTextColumn Header="Post" Binding="{Binding Path=Post}"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}"/>
+                <DataGridTextColumn Header="Open Date" Binding="{Binding Path=OpenDate}"/>
+                <DataGridTextColumn Header="Close Date" Binding="{Binding Path=CloseDate}"/>
+                <DataGridTextColumn Header="Autor" Binding="{Binding Path=Autor}"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}"/>
+                <DataGridTextColumn Header="Respoinder" Binding="{Binding Path=Respoinder}"/>
+                <DataGridTextColumn Header="Comment" Binding="{Binding Path=Comment}"/>
+                <DataGridTextColumn Header="Updated At" Binding="{Binding Path=UpdatedAt}"/>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </StackPanel>

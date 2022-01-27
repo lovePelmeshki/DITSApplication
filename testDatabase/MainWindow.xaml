@@ -9,7 +9,9 @@
     <TabControl>
         <TabItem Header="Events" Width="80">
             <StackPanel>
-
+                <StackPanel Orientation="Horizontal" Height="28">
+                    <ComboBox x:Name="IncidentFilterComboBox" Width="200" DisplayMemberPath="Description" SelectedValuePath="Id" SelectionChanged="IncidentFilterComboBox_SelectionChanged"/>
+                </StackPanel>
                 <Button x:Name="RefreshButton" Content="Refresh" Click="RefreshButton_Click"/>
                 <DataGrid x:Name="icindentsDataGrid"  
                   SelectionMode="Single"
