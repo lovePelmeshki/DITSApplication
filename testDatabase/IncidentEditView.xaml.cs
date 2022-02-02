@@ -2,27 +2,18 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Linq;
-
-
 namespace testDatabase
 {
-    /// <summary>
-    /// Interaction logic for IncidentEditView.xaml
-    /// </summary>
     public partial class IncidentEditView : Window
     {
         private Incident _incident;
-
         public IncidentEditView(Incident incident)
         {
             InitializeComponent();
             DataContext = incident;
             _incident = incident;
             RefreshItemsSources();
-           
-
         }
-
         private void RefreshItemsSources()
         {
             HistoryDataGrid.ItemsSource = GetIncidentHistory(_incident.Id);
@@ -58,12 +49,13 @@ namespace testDatabase
                               join post in db.Posts
                               on his.PostId equals post.Id into p
                               from post in p.DefaultIfEmpty()
-
+                              
                               join autor in db.Employees
                               on his.AutorId equals autor.Id
-
+                              
                               join resp in db.Employees
-                              on his.RespoinderId equals resp.Id
+                              on his.RespoinderId equals resp.Id into r
+                              from resp in r.DefaultIfEmpty()
 
                               join status in db.IncidentStatuses
                               on his.StatusId equals status.Id
@@ -78,15 +70,14 @@ namespace testDatabase
                                   Title = his.Title,
                                   Description = his.Description,
                                   OpenDate = his.OpenDate,
-                                  CloseDate = his.CloseDate,
+                                  CloseDate =  his.CloseDate,
                                   Autor = autor.Lastname,
                                   Status = status.Description,
-                                  Respoinder = resp.Lastname,
+                                  Respoinder = resp==null? " " : resp.Lastname,
                                   Comment = his.Comment,
                                   UpdatedAt = his.UpdatedAt
                               };
-                return history.ToList();
-                              
+                return history.ToList();             
             }
         }
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -105,9 +96,5 @@ namespace testDatabase
                 Close();
             }
         }
-
-
-
-
     }
 }
