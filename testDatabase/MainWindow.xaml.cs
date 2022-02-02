@@ -20,6 +20,7 @@ namespace testDatabase
             RefreshIcintentsData();
             RefreshEmployeesData();
             RefreshStationsData();
+            RefreshEquipmentData();
         }
 
 
@@ -50,7 +51,7 @@ namespace testDatabase
                                    join status in db.IncidentStatuses
                                    on inc.StatusId equals status.Id into st
                                    from status in st.DefaultIfEmpty()
-                                  
+
 
 
                                    select new
@@ -104,8 +105,8 @@ namespace testDatabase
 
         private void icindentsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            
+
+
             if (icindentsDataGrid.SelectedValue != null)
             {
                 _selectedIncident = GetIncidentById((int)icindentsDataGrid.SelectedValue);
@@ -220,16 +221,16 @@ namespace testDatabase
                                    };
                 EmployeeDataGrid.ItemsSource = employeeInfo.ToList();
             }
-            
+
         }
         public static Employee GetEmployee(int id)
         {
             using (ditsdbContext db = new ditsdbContext())
             {
                 var employee = (from emp in db.Employees
-                               where emp.Id == id
-                               select emp).FirstOrDefault();
-                return employee; 
+                                where emp.Id == id
+                                select emp).FirstOrDefault();
+                return employee;
             }
         }
         public static List<Employee> GetAllEmployees()
@@ -275,7 +276,7 @@ namespace testDatabase
             using (ditsdbContext db = new ditsdbContext())
             {
                 var line = (from l in db.Lines
-                           where l.Id == lineId
+                            where l.Id == lineId
                             select l).FirstOrDefault();
                 return line;
 
@@ -287,9 +288,9 @@ namespace testDatabase
             using (ditsdbContext db = new ditsdbContext())
             {
                 var line = (from l in db.Lines
-                           join station in db.Stations
-                           on l.Id equals station.LineId
-                           select l).FirstOrDefault();
+                            join station in db.Stations
+                            on l.Id equals station.LineId
+                            select l).FirstOrDefault();
                 return line;
 
             }
@@ -322,7 +323,7 @@ namespace testDatabase
                 StationInfo window = new StationInfo(_selectedStation);
                 window.Show();
             }
-            
+
         }
 
 
@@ -330,5 +331,26 @@ namespace testDatabase
 
         #endregion
 
+        #region Equipment
+        public void RefreshEquipmentData()
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var equipment = from types in db.EquipmentTypes
+                                join clas in db.EquipmentClasses
+                                on types.EquipmentClassId equals clas.Id
+                                select new
+                                {
+                                    Id = clas.ClassName,
+                                    types = types.TypeName
+                                };
+
+                EquipmentDataGrid.ItemsSource = equipment.ToList();
+
+            }
+
+        }
+
+        #endregion
     }
 }

@@ -19,6 +19,8 @@ namespace testDatabase
 
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<EquipmentClass> EquipmentClasses { get; set; }
+        public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
         public virtual DbSet<Incident> Incidents { get; set; }
         public virtual DbSet<IncidentHistory> IncidentHistories { get; set; }
         public virtual DbSet<IncidentStatus> IncidentStatuses { get; set; }
@@ -76,6 +78,35 @@ namespace testDatabase
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.DepartmentId)
                     .HasConstraintName("FK_employees_departments");
+            });
+
+            modelBuilder.Entity<EquipmentClass>(entity =>
+            {
+                entity.ToTable("equipment_class");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ClassName)
+                    .HasMaxLength(255)
+                    .HasColumnName("class_name");
+            });
+
+            modelBuilder.Entity<EquipmentType>(entity =>
+            {
+                entity.ToTable("equipment_type");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.EquipmentClassId).HasColumnName("equipment_class_id");
+
+                entity.Property(e => e.TypeName)
+                    .HasMaxLength(255)
+                    .HasColumnName("type__name");
+
+                entity.HasOne(d => d.EquipmentClass)
+                    .WithMany(p => p.EquipmentTypes)
+                    .HasForeignKey(d => d.EquipmentClassId)
+                    .HasConstraintName("FK__equipment__equip__787EE5A0");
             });
 
             modelBuilder.Entity<Incident>(entity =>
