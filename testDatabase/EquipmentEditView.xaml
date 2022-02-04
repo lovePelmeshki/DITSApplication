@@ -1,0 +1,92 @@
+﻿<Window x:Class="testDatabase.EquipmentEditView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:testDatabase"
+        mc:Ignorable="d"
+        Title="{Binding Path=Id}" Height="700" Width="800" ResizeMode="NoResize">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+            <RowDefinition Height="250"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Информация об оборудовании" Margin="10" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical">
+                <Grid Height="25">
+                    <TextBlock Text="ID:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" />
+                    <TextBox Name="EqIdTextbox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=Id, Mode=OneWay}" IsEnabled="False" />
+                </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Serial:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqSerialTextbox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=Serial, Mode=OneWay}" IsEnabled="False"/>
+                </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Тип:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqTypeTextbox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=TypeName, Mode=OneWay}" IsEnabled="False"/>
+                </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Линия:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqLineTextbox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=LineName, Mode=OneWay}" IsEnabled="False"/>
+                </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Станция:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqStationTextbox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=StationName, Mode=OneWay}" IsEnabled="False"/>
+                </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Пост:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqPostTextbox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=PostName, Mode=OneWay}" IsEnabled="False"/>
+                </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Статус:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqStatusTextbox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=StatusName, Mode=OneWay}" IsEnabled="False"/>
+                </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Дата установки:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqInstallDate" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=StatusName, Mode=OneWay}" IsEnabled="False"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Обслуживание" Margin="10" Grid.ColumnSpan="2" Grid.Row="1">
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <TextBlock Text="Дата:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqMaintenanceDate" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                </Grid>
+                <Grid>
+                    <TextBlock Text="Следующее обслуживание:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqMaintenanceType" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                </Grid>
+                <Grid>
+                    <TextBlock Text="Следующая замена:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="NextChangeDate" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                </Grid>
+                <Grid>
+                    <TextBlock Text="Сотрудник:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="EqMainteinerName" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Действия" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Margin="10">
+            <StackPanel Orientation="Vertical" Margin="5">
+                <Button x:Name="MoveToRepairButton" Content="Отправить в мастерские" Height="40" Margin="5" Click="MoveToRepairButton_Click"/>
+                <Button x:Name="DoMaintenanceButton" Content="Произвести обслуживание" Height="40" Margin="5"/>
+                <Button x:Name="ChangeButton" Content="Заменить" Height="40" Margin="5" Click="ChangeButton_Click"/>
+                <Button x:Name="InstallButton" Content="Установить" Height="40" Margin="5"/>
+                <Button x:Name="DropButton" Content="Демонтировать" Height="40" Margin="5"/>
+                <Button x:Name="MoveFromRepairButton" Content="Получить из мастерских" Height="40" Margin="5"/>
+            </StackPanel>
+            
+        </GroupBox>
+        <DataGrid Name="EquipmentHistoryDataGrid" Grid.Row="2" Grid.ColumnSpan="4" Margin="5">
+            
+        </DataGrid>
+    </Grid>
+</Window>

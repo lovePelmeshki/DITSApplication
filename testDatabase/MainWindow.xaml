@@ -50,7 +50,19 @@
         <TabItem Header="Maintenance" Width="80"></TabItem>
         <TabItem Header="Equipment" Width="80">
             <StackPanel Orientation="Vertical">
-                <DataGrid x:Name="EquipmentDataGrid"></DataGrid>
+                <DataGrid x:Name="EquipmentDataGrid" 
+                          MouseDoubleClick="EquipmentDataGrid_MouseDoubleClick"
+                          SelectionChanged="EquipmentDataGrid_SelectionChanged"
+                          SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  SelectedValuePath="Id"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"></DataGrid>
+                <Button Name="EditEquipmentButton"
+                        Height="40"
+                        Width="120"
+                        Content="Edit" 
+                        Click="EditEquipmentButton_Click"/>
             </StackPanel>
         </TabItem>
         <TabItem Header="Stations" Width="80">

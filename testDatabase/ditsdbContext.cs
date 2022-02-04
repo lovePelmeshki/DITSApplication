@@ -19,7 +19,9 @@ namespace testDatabase
 
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EquipmentClass> EquipmentClasses { get; set; }
+        public virtual DbSet<EquipmentStatus> EquipmentStatuses { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
         public virtual DbSet<Incident> Incidents { get; set; }
         public virtual DbSet<IncidentHistory> IncidentHistories { get; set; }
@@ -80,6 +82,38 @@ namespace testDatabase
                     .HasConstraintName("FK_employees_departments");
             });
 
+            modelBuilder.Entity<Equipment>(entity =>
+            {
+                entity.ToTable("equipment");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.EqTypeId).HasColumnName("eq_type_id");
+
+                entity.Property(e => e.PlaceId).HasColumnName("place_id");
+
+                entity.Property(e => e.Serial)
+                    .HasMaxLength(255)
+                    .HasColumnName("serial");
+
+                entity.Property(e => e.StatusId).HasColumnName("status_id");
+
+                entity.HasOne(d => d.EqType)
+                    .WithMany(p => p.Equipment)
+                    .HasForeignKey(d => d.EqTypeId)
+                    .HasConstraintName("FK__equipment__eq_ty__7F2BE32F");
+
+                entity.HasOne(d => d.Place)
+                    .WithMany(p => p.Equipment)
+                    .HasForeignKey(d => d.PlaceId)
+                    .HasConstraintName("FK__equipment__place__00200768");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Equipment)
+                    .HasForeignKey(d => d.StatusId)
+                    .HasConstraintName("FK_equipment_equipment_status");
+            });
+
             modelBuilder.Entity<EquipmentClass>(entity =>
             {
                 entity.ToTable("equipment_class");
@@ -89,6 +123,17 @@ namespace testDatabase
                 entity.Property(e => e.ClassName)
                     .HasMaxLength(255)
                     .HasColumnName("class_name");
+            });
+
+            modelBuilder.Entity<EquipmentStatus>(entity =>
+            {
+                entity.ToTable("equipment_status");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.StatusName)
+                    .HasMaxLength(255)
+                    .HasColumnName("status_name");
             });
 
             modelBuilder.Entity<EquipmentType>(entity =>

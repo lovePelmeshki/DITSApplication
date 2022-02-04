@@ -5,18 +5,16 @@ using System.Collections.Generic;
 
 namespace testDatabase
 {
-    public partial class EquipmentType
+    public partial class EquipmentStatus
     {
-        public EquipmentType()
+        public EquipmentStatus()
         {
             Equipment = new HashSet<Equipment>();
         }
 
         public int Id { get; set; }
-        public string TypeName { get; set; }
-        public int? EquipmentClassId { get; set; }
+        public string StatusName { get; set; }
 
-        public virtual EquipmentClass EquipmentClass { get; set; }
         public virtual ICollection<Equipment> Equipment { get; set; }
     }
 }

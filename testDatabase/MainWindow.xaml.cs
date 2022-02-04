@@ -13,6 +13,7 @@ namespace testDatabase
     {
         public Incident _selectedIncident = null;
         public Station _selectedStation = null;
+        public Equipment _selectedEquipment = null;
         private int _selectedStatus = -1;
         public MainWindow()
         {
@@ -336,13 +337,31 @@ namespace testDatabase
         {
             using (ditsdbContext db = new ditsdbContext())
             {
-                var equipment = from types in db.EquipmentTypes
+                var equipment = from eq in db.Equipment
+                                join types in db.EquipmentTypes
+                                on eq.EqTypeId equals types.Id
+                                
                                 join clas in db.EquipmentClasses
                                 on types.EquipmentClassId equals clas.Id
+
+                                join post in db.Posts
+                                on eq.PlaceId equals post.Id
+
+                                join station in db.Stations
+                                on post.StationId equals station.Id
+
+                                join status in db.EquipmentStatuses
+                                on eq.StatusId equals status.Id
                                 select new
                                 {
-                                    Id = clas.ClassName,
-                                    types = types.TypeName
+                                    Id = eq.Id,
+                                    Class = clas.ClassName,
+                                    types = types.TypeName,
+                                    Serial = eq.Serial,
+                                    Station = station.StationName,
+                                    Point = post.PostName,
+                                    Status = status.StatusName
+
                                 };
 
                 EquipmentDataGrid.ItemsSource = equipment.ToList();
@@ -350,7 +369,52 @@ namespace testDatabase
             }
 
         }
+        public Equipment GetEquipmentById(int id)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var equipment = (from eq in db.Equipment
+                                where eq.Id == id
+                                select eq).FirstOrDefault();
+                return equipment;
+            }
+        }
+
+
+
+        #region events
+
+
+        private void EditEquipmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedEquipment != null)
+            {
+                var window = new EquipmentEditView(_selectedEquipment);
+                window.Show();
+            }
+        }
+
+        private void EquipmentDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (_selectedEquipment != null)
+            {
+                var window = new EquipmentEditView(_selectedEquipment);
+                window.Show();
+            }
+            //EquipmentDataGrid.SelectedValue;
+        }
 
         #endregion
+
+        #endregion
+
+        private void EquipmentDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(EquipmentDataGrid.SelectedValue != null)
+            {
+            _selectedEquipment = GetEquipmentById((int)EquipmentDataGrid.SelectedValue);
+            }
+
+        }
     }
 }

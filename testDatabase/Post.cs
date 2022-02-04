@@ -9,6 +9,7 @@ namespace testDatabase
     {
         public Post()
         {
+            Equipment = new HashSet<Equipment>();
             Incidents = new HashSet<Incident>();
         }
 
@@ -17,6 +18,7 @@ namespace testDatabase
         public int? StationId { get; set; }
 
         public virtual Station Station { get; set; }
+        public virtual ICollection<Equipment> Equipment { get; set; }
         public virtual ICollection<Incident> Incidents { get; set; }
     }
 }
