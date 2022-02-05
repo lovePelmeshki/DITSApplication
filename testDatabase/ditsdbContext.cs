@@ -21,6 +21,7 @@ namespace testDatabase
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EquipmentClass> EquipmentClasses { get; set; }
+        public virtual DbSet<EquipmentHistory> EquipmentHistories { get; set; }
         public virtual DbSet<EquipmentStatus> EquipmentStatuses { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
         public virtual DbSet<Incident> Incidents { get; set; }
@@ -141,6 +142,34 @@ namespace testDatabase
                 entity.Property(e => e.ClassName)
                     .HasMaxLength(255)
                     .HasColumnName("class_name");
+            });
+
+            modelBuilder.Entity<EquipmentHistory>(entity =>
+            {
+                entity.ToTable("equipment_history");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
+
+                entity.Property(e => e.InstallDate)
+                    .HasColumnType("date")
+                    .HasColumnName("install_date");
+
+                entity.Property(e => e.LastMaintenanceId).HasColumnName("last_maintenance_id");
+
+                entity.Property(e => e.PlaceId).HasColumnName("place_id");
+
+                entity.Property(e => e.RepairDate)
+                    .HasColumnType("date")
+                    .HasColumnName("repair_date");
+
+                entity.Property(e => e.StatusId).HasColumnName("status_id");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updated_at")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<EquipmentStatus>(entity =>

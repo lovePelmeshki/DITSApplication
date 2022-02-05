@@ -77,6 +77,44 @@ namespace testDatabase
                                  NextRepair = Convert.ToDateTime(eq.RepairDate).AddDays(1825)
                              };
                 DataContext = eqInfo.ToList();
+                var historyInfo = from his in db.EquipmentHistories
+                                  where his.EquipmentId == _selectedEquipment.Id
+
+                                  join post in db.Posts
+                                  on his.PlaceId equals post.Id
+
+                                  join station in db.Stations
+                                  on post.StationId equals station.Id
+
+                                  join line in db.Lines
+                                  on station.LineId equals line.Id
+
+                                  join status in db.EquipmentStatuses
+                                  on his.StatusId equals status.Id
+
+                                  join maintenance in db.Maintenances
+                                  on his.LastMaintenanceId equals maintenance.Id into m
+                                  from maintenance in m.DefaultIfEmpty()
+
+                                  join mtype in db.MaintenanceTypes
+                                  on maintenance.MaintenanceTypeId equals mtype.Id into mt
+                                  from mtype in mt.DefaultIfEmpty()
+
+
+                                  orderby his.UpdatedAt descending
+                                  select new
+                                  {
+                                      Id = his.Id,
+                                      EquipId = his.EquipmentId,
+                                      Line = line.LineName,
+                                      Station = station.StationName,
+                                      Post = post.PostName,
+                                      InstallDate = his.InstallDate,
+                                      MaintenanceId = his.LastMaintenanceId,
+                                      MaintenanceType = mtype.MaintenanceName,
+                                      RepairDate = his.RepairDate
+                                  } ;
+                EquipmentHistoryDataGrid.ItemsSource = historyInfo.ToList();
 
                 //Maintenance maintenance = (from m in db.Maintenances
                 //           where m.Id == _selectedEquipment.LastMaintenanceId
