@@ -283,7 +283,6 @@ namespace testDatabase
 
             }
         }
-
         public static Line GetLineByStationId(int stationId)
         {
             using (ditsdbContext db = new ditsdbContext())
@@ -306,6 +305,16 @@ namespace testDatabase
                 return station;
             }
         }
+        public static List<Station> GetStationsByLine(int lineId)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var stations = from station in db.Stations
+                               where station.LineId == lineId
+                               select station;
+                return stations.ToList();
+            }
+        }
         public static Post GetPost(int id)
         {
             using (ditsdbContext db = new ditsdbContext())
@@ -314,6 +323,16 @@ namespace testDatabase
                             where p.Id == id
                             select p).FirstOrDefault();
                 return post;
+            }
+        }
+        public static List<Post> GetPostsByStation(int stationId)
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var posts = from post in db.Posts
+                            where post.StationId == stationId
+                            select post;
+                return posts.ToList();
             }
         }
         private void StationsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -326,9 +345,6 @@ namespace testDatabase
             }
 
         }
-
-
-
 
         #endregion
 
@@ -415,6 +431,11 @@ namespace testDatabase
             _selectedEquipment = GetEquipmentById((int)EquipmentDataGrid.SelectedValue);
             }
 
+        }
+
+        private void RefreshEquipmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshEquipmentData();
         }
     }
 }

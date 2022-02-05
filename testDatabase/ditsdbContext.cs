@@ -90,6 +90,10 @@ namespace testDatabase
 
                 entity.Property(e => e.EqTypeId).HasColumnName("eq_type_id");
 
+                entity.Property(e => e.InstallDate)
+                    .HasColumnType("date")
+                    .HasColumnName("install_date");
+
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
 
                 entity.Property(e => e.Serial)

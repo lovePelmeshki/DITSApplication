@@ -12,6 +12,7 @@ namespace testDatabase
         public int? EqTypeId { get; set; }
         public int? PlaceId { get; set; }
         public int? StatusId { get; set; }
+        public DateTime? InstallDate { get; set; }
 
         public virtual EquipmentType EqType { get; set; }
         public virtual Post Place { get; set; }

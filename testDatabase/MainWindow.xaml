@@ -50,6 +50,7 @@
         <TabItem Header="Maintenance" Width="80"></TabItem>
         <TabItem Header="Equipment" Width="80">
             <StackPanel Orientation="Vertical">
+                <Button Name="RefreshEquipmentButton" Content="Refresh" Height="35" Width="200" Click="RefreshEquipmentButton_Click"/>
                 <DataGrid x:Name="EquipmentDataGrid" 
                           MouseDoubleClick="EquipmentDataGrid_MouseDoubleClick"
                           SelectionChanged="EquipmentDataGrid_SelectionChanged"
