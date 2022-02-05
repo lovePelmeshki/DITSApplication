@@ -27,6 +27,8 @@ namespace testDatabase
         public virtual DbSet<IncidentHistory> IncidentHistories { get; set; }
         public virtual DbSet<IncidentStatus> IncidentStatuses { get; set; }
         public virtual DbSet<Line> Lines { get; set; }
+        public virtual DbSet<Maintenance> Maintenances { get; set; }
+        public virtual DbSet<MaintenanceType> MaintenanceTypes { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Station> Stations { get; set; }
 
@@ -94,6 +96,8 @@ namespace testDatabase
                     .HasColumnType("date")
                     .HasColumnName("install_date");
 
+                entity.Property(e => e.LastMaintenanceId).HasColumnName("last_maintenance_id");
+
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
 
                 entity.Property(e => e.Serial)
@@ -106,6 +110,11 @@ namespace testDatabase
                     .WithMany(p => p.Equipment)
                     .HasForeignKey(d => d.EqTypeId)
                     .HasConstraintName("FK__equipment__eq_ty__7F2BE32F");
+
+                entity.HasOne(d => d.LastMaintenance)
+                    .WithMany(p => p.Equipment)
+                    .HasForeignKey(d => d.LastMaintenanceId)
+                    .HasConstraintName("FK_equipment_maintenance");
 
                 entity.HasOne(d => d.Place)
                     .WithMany(p => p.Equipment)
@@ -277,6 +286,51 @@ namespace testDatabase
                 entity.Property(e => e.LineName)
                     .HasMaxLength(255)
                     .HasColumnName("line_name");
+            });
+
+            modelBuilder.Entity<Maintenance>(entity =>
+            {
+                entity.ToTable("maintenance");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+
+                entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
+
+                entity.Property(e => e.MaintenanceDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("maintenance_date");
+
+                entity.Property(e => e.MaintenanceTypeId).HasColumnName("maintenance_type_id");
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.Maintenances)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK__maintenan__emplo__0E6E26BF");
+
+                entity.HasOne(d => d.EquipmentNavigation)
+                    .WithMany(p => p.Maintenances)
+                    .HasForeignKey(d => d.EquipmentId)
+                    .HasConstraintName("FK__maintenan__equip__0D7A0286");
+
+                entity.HasOne(d => d.MaintenanceType)
+                    .WithMany(p => p.Maintenances)
+                    .HasForeignKey(d => d.MaintenanceTypeId)
+                    .HasConstraintName("FK__maintenan__maint__0C85DE4D");
+            });
+
+            modelBuilder.Entity<MaintenanceType>(entity =>
+            {
+                entity.ToTable("maintenance_type");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.MaintenanceName)
+                    .HasMaxLength(255)
+                    .HasColumnName("maintenance_name");
+
+                entity.Property(e => e.Periodicity).HasColumnName("periodicity");
             });
 
             modelBuilder.Entity<Post>(entity =>

@@ -22,6 +22,7 @@ namespace testDatabase
             RefreshEmployeesData();
             RefreshStationsData();
             RefreshEquipmentData();
+            RefreshMaintenanceData();
         }
 
 
@@ -396,10 +397,7 @@ namespace testDatabase
             }
         }
 
-
-
-        #region events
-
+        //-------------EVENTS-----------------------
 
         private void EditEquipmentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -419,16 +417,11 @@ namespace testDatabase
             }
             //EquipmentDataGrid.SelectedValue;
         }
-
-        #endregion
-
-        #endregion
-
         private void EquipmentDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(EquipmentDataGrid.SelectedValue != null)
+            if (EquipmentDataGrid.SelectedValue != null)
             {
-            _selectedEquipment = GetEquipmentById((int)EquipmentDataGrid.SelectedValue);
+                _selectedEquipment = GetEquipmentById((int)EquipmentDataGrid.SelectedValue);
             }
 
         }
@@ -437,5 +430,20 @@ namespace testDatabase
         {
             RefreshEquipmentData();
         }
+
+        #endregion
+
+        public void RefreshMaintenanceData()
+        {
+            using (ditsdbContext db = new ditsdbContext())
+            {
+                var maintenanceInfo = from main in db.Maintenances
+                                      select main;
+                MaintenanceDataGrid.ItemsSource = maintenanceInfo.ToList();
+            }
+        }
+
+
+
     }
 }

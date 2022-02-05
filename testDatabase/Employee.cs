@@ -10,6 +10,7 @@ namespace testDatabase
         public Employee()
         {
             Incidents = new HashSet<Incident>();
+            Maintenances = new HashSet<Maintenance>();
         }
 
         public int Id { get; set; }
@@ -20,5 +21,6 @@ namespace testDatabase
 
         public virtual Department Department { get; set; }
         public virtual ICollection<Incident> Incidents { get; set; }
+        public virtual ICollection<Maintenance> Maintenances { get; set; }
     }
 }

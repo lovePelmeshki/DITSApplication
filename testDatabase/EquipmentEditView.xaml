@@ -58,11 +58,12 @@
             <StackPanel Orientation="Vertical">
                 <Grid>
                     <TextBlock Text="Дата:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
-                    <TextBox Name="EqMaintenanceDate" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                    <TextBox Name="EqMaintenanceDate" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=MaintenanceDate, Mode=OneWay, StringFormat=dd.MM.yyyy}" IsEnabled="False"/>
                 </Grid>
                 <Grid>
                     <TextBlock Text="Следующее обслуживание:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
-                    <TextBox Name="EqMaintenanceType" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                    <TextBox Name="NextMaintenanceDateTextBox" Width="200" 
+                             HorizontalAlignment="Right" Margin="3" Text="{Binding Path=NextDate, Mode=OneWay, StringFormat=dd.MM.yyyy}"/>
                 </Grid>
                 <Grid>
                     <TextBlock Text="Следующая замена:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
@@ -70,14 +71,14 @@
                 </Grid>
                 <Grid>
                     <TextBlock Text="Сотрудник:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
-                    <TextBox Name="EqMainteinerName" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                    <TextBox Name="EqMainteinerName" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=Employee, Mode=OneWay}"/>
                 </Grid>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Действия" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Margin="10">
             <StackPanel Orientation="Vertical" Margin="5">
                 <Button x:Name="MoveToRepairButton" Content="Отправить в мастерские" Height="40" Margin="5" Click="MoveToRepairButton_Click"/>
-                <Button x:Name="DoMaintenanceButton" Content="Произвести обслуживание" Height="40" Margin="5" Visibility="Collapsed"/>
+                <Button x:Name="MaintenanceButton" Content="Произвести обслуживание" Height="40" Margin="5" Click="MaintenanceButton_Click"/>
                 <Button x:Name="ChangeButton" Content="Заменить" Height="40" Margin="5" Click="ChangeButton_Click"/>
                 <Button x:Name="InstallButton" Content="Установить" Height="40" Margin="5" Click="InstallButton_Click"/>
                 <Button x:Name="DropButton" Content="Демонтировать" Height="40" Margin="5" Click="DropButton_Click"/>
@@ -102,6 +103,21 @@
                     <ComboBox Name="ChangeEqComboBox" Width="200" Margin="5" SelectedValuePath="Id" DisplayMemberPath="Serial" IsEditable="True"/>
                     <Button Name="DoChangeEqButton" Width="200" Margin="5" Height="35" Content="Произвести замену" Click="DoChangeEqButton_Click"/>
 
+                </StackPanel>
+                <StackPanel Name="MaintenanceStackPanel" Orientation="Vertical" Margin="3">
+                    <Grid Margin="5">
+                        <TextBlock Text="Выберите дату:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <DatePicker Name="MaintenanceDatePicker" Width="150"/>
+                            <Button Name="TodayButton" Width="30" Content="C" Click="TodayButton_Click"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="5">
+                        <TextBlock Text="Сотрудник:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <ComboBox Name="EmployeeComboBox" HorizontalAlignment="Right" Width="180" 
+                                  DisplayMemberPath="Lastname" SelectedValuePath="Id"/>
+                    </Grid>
+                    <Button Name="DoMaintenanceButton" Margin="5" Width="200" Height="35" Content="Произвести обслуживание" Click="DoMaintenanceButton_Click"/>
                 </StackPanel>
                 
             </StackPanel>
