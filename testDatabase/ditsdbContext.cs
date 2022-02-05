@@ -100,6 +100,11 @@ namespace testDatabase
 
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
 
+                entity.Property(e => e.RepairDate)
+                    .HasColumnType("date")
+                    .HasColumnName("repair_date")
+                    .HasDefaultValueSql("(datefromparts((2000),(1),(1)))");
+
                 entity.Property(e => e.Serial)
                     .HasMaxLength(255)
                     .HasColumnName("serial");
@@ -300,7 +305,8 @@ namespace testDatabase
 
                 entity.Property(e => e.MaintenanceDate)
                     .HasColumnType("datetime")
-                    .HasColumnName("maintenance_date");
+                    .HasColumnName("maintenance_date")
+                    .HasDefaultValueSql("(datefromparts((2000),(1),(1)))");
 
                 entity.Property(e => e.MaintenanceTypeId).HasColumnName("maintenance_type_id");
 

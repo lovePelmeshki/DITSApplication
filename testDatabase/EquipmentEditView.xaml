@@ -52,6 +52,10 @@
                     <TextBlock Text="Дата установки:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
                     <TextBox Name="EqInstallDate" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=InstallDate, Mode=OneWay, StringFormat=dd.MM.yyyy}" IsEnabled="False"/>
                 </Grid>
+                <Grid Height="25">
+                    <TextBlock Text="Дата проверки мастерских:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox Name="RepairDateTextBox" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=RepairDate, Mode=OneWay, StringFormat=dd.MM.yyyy}" IsEnabled="False"/>
+                </Grid>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Обслуживание" Margin="10" Grid.ColumnSpan="2" Grid.Row="1">
@@ -61,17 +65,17 @@
                     <TextBox Name="EqMaintenanceDate" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=MaintenanceDate, Mode=OneWay, StringFormat=dd.MM.yyyy}" IsEnabled="False"/>
                 </Grid>
                 <Grid>
-                    <TextBlock Text="Следующее обслуживание:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
+                    <TextBlock Text="Следующее обслуживание:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" IsEnabled="False"/>
                     <TextBox Name="NextMaintenanceDateTextBox" Width="200" 
-                             HorizontalAlignment="Right" Margin="3" Text="{Binding Path=NextDate, Mode=OneWay, StringFormat=dd.MM.yyyy}"/>
+                             HorizontalAlignment="Right" Margin="3" Text="{Binding Path=NextDate, Mode=OneWay, StringFormat=dd.MM.yyyy}" IsEnabled="False"/>
                 </Grid>
                 <Grid>
-                    <TextBlock Text="Следующая замена:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
-                    <TextBox Name="NextChangeDate" Width="200" HorizontalAlignment="Right" Margin="3"/>
+                    <TextBlock Text="Следующая замена:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" IsEnabled="False"/>
+                    <TextBox Name="NextChangeDate" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=NextRepair, Mode=OneWay, StringFormat=dd.MM.yyyy}" IsEnabled="False"/>
                 </Grid>
                 <Grid>
                     <TextBlock Text="Сотрудник:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3"/>
-                    <TextBox Name="EqMainteinerName" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=Employee, Mode=OneWay}"/>
+                    <TextBox Name="EqMainteinerName" Width="200" HorizontalAlignment="Right" Margin="3" Text="{Binding Path=Employee, Mode=OneWay}" IsEnabled="False"/>
                 </Grid>
             </StackPanel>
         </GroupBox>
@@ -83,20 +87,24 @@
                 <Button x:Name="InstallButton" Content="Установить" Height="40" Margin="5" Click="InstallButton_Click"/>
                 <Button x:Name="DropButton" Content="Демонтировать" Height="40" Margin="5" Click="DropButton_Click"/>
                 <Button x:Name="MoveFromRepairButton" Content="Получить из мастерских" Height="40" Margin="5" Click="MoveFromRepairButton_Click"/>
-                <StackPanel x:Name="InstallStackPanel" Orientation="Vertical" Margin="3" Visibility="Collapsed">
+                <StackPanel x:Name="InstallStackPanel" Orientation="Vertical" Margin="3" Visibility="Visible">
                     <Grid Margin="3">
                         <TextBlock Text="Линия:" HorizontalAlignment="Left"/>
-                        <ComboBox Name="ChangeLineComboBox" HorizontalAlignment="Right" Width="200" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="ChangeLineComboBox_SelectionChanged"/>
+                        <ComboBox Name="InstallLineComboBox" HorizontalAlignment="Right" Width="200" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="ChangeLineComboBox_SelectionChanged"/>
                     </Grid>
                     <Grid Margin="3">
                         <TextBlock Text="Станция:" HorizontalAlignment="Left"/>
-                        <ComboBox Name="ChangeStationComboBox" HorizontalAlignment="Right" Width="200" SelectedValuePath="Id" DisplayMemberPath="StationName" SelectionChanged="ChangeStationComboBox_SelectionChanged"/>
+                        <ComboBox Name="InstallStationComboBox" HorizontalAlignment="Right" Width="200" SelectedValuePath="Id" DisplayMemberPath="StationName" SelectionChanged="ChangeStationComboBox_SelectionChanged"/>
                     </Grid>
                     <Grid Margin="3">
                         <TextBlock Text="Место:" HorizontalAlignment="Left"/>
-                        <ComboBox Name="ChangePostComboBox" HorizontalAlignment="Right" Width="200" SelectedValuePath="Id" DisplayMemberPath="PostName"/>
+                        <ComboBox Name="InstallPostComboBox" HorizontalAlignment="Right" Width="200" SelectedValuePath="Id" DisplayMemberPath="PostName"/>
                     </Grid>
-                    <Button Name="DoChangeButton" Content="Произвести установку" Height="35" Width="200" Margin="5" Click="DoChangeButton_Click"/>
+                    <Grid Margin="3">
+                        <TextBlock Text="Сотрудник:" HorizontalAlignment="Left"/>
+                        <ComboBox Name="InstallEmployeeComboBox" HorizontalAlignment="Right" Width="200" SelectedValuePath="Id" DisplayMemberPath="Lastname"/>
+                    </Grid>
+                    <Button Name="DoInstallButton" Content="Произвести установку" Height="35" Width="200" Margin="5" Click="DoInstallButton_Click"/>
                 </StackPanel>
                 <StackPanel Name="ChangeStackPanel" Orientation="Vertical" Margin="3" Visibility="Collapsed">
                     <TextBlock Text="Выбрать оборудование:" HorizontalAlignment="Center" Margin="5"/>
@@ -104,7 +112,7 @@
                     <Button Name="DoChangeEqButton" Width="200" Margin="5" Height="35" Content="Произвести замену" Click="DoChangeEqButton_Click"/>
 
                 </StackPanel>
-                <StackPanel Name="MaintenanceStackPanel" Orientation="Vertical" Margin="3">
+                <StackPanel Name="MaintenanceStackPanel" Orientation="Vertical" Margin="3" Visibility="Collapsed">
                     <Grid Margin="5">
                         <TextBlock Text="Выберите дату:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

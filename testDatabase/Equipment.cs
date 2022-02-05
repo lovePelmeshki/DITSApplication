@@ -19,6 +19,7 @@ namespace testDatabase
         public int? StatusId { get; set; }
         public DateTime? InstallDate { get; set; }
         public int? LastMaintenanceId { get; set; }
+        public DateTime? RepairDate { get; set; }
 
         public virtual EquipmentType EqType { get; set; }
         public virtual Maintenance LastMaintenance { get; set; }

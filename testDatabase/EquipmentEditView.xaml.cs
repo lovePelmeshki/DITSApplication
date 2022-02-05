@@ -30,7 +30,7 @@ namespace testDatabase
             {
                 DateTime? dt = DateTime.MinValue;
                 DateTime nextMaintenanceDate = DateTime.MinValue;
-                int periodicity = 0;
+                //int periodicity = 0;
                 var eqInfo = from eq in db.Equipment
                              where eq.Id == _selectedEquipment.Id
 
@@ -50,13 +50,16 @@ namespace testDatabase
                              on station.LineId equals line.Id
 
                              join m in db.Maintenances
-                             on eq.LastMaintenanceId equals m.Id
+                             on eq.LastMaintenanceId equals m.Id into mm
+                             from m in mm.DefaultIfEmpty()
 
                              join mt in db.MaintenanceTypes
-                             on m.MaintenanceTypeId equals mt.Id
+                             on m.MaintenanceTypeId equals mt.Id into mmt
+                             from mt in mmt.DefaultIfEmpty()
 
                              join emp in db.Employees
-                             on m.EmployeeId equals emp.Id
+                             on m.EmployeeId equals emp.Id into e
+                             from emp in e.DefaultIfEmpty()
                              select new
                              {
                                  Id = eq.Id,
@@ -67,9 +70,11 @@ namespace testDatabase
                                  PostName = post.PostName,
                                  StatusName = status.StatusName,
                                  InstallDate = eq.InstallDate,
-                                 MaintenanceDate = m.MaintenanceDate,
-                                 NextDate = Convert.ToDateTime(m.MaintenanceDate).AddDays((int)mt.Periodicity),
-                                 Employee = emp.Lastname, 
+                                 MaintenanceDate = m==null? DateTime.Parse("01.01.2001") : m.MaintenanceDate,
+                                 NextDate = m==null? DateTime.Parse("01.01.2001") : Convert.ToDateTime(m.MaintenanceDate).AddDays((int)mt.Periodicity),
+                                 Employee = emp==null? "---" : emp.Lastname,
+                                 RepairDate = eq.RepairDate,
+                                 NextRepair = Convert.ToDateTime(eq.RepairDate).AddDays(1825)
                              };
                 DataContext = eqInfo.ToList();
 
@@ -188,6 +193,9 @@ namespace testDatabase
                     mainEquipment.PlaceId = 66;
                     mainEquipment.StatusId = 3;
                     mainEquipment.InstallDate = DateTime.Now;
+
+
+
                     db.SaveChanges();
                     _selectedEquipment = mainEquipment;
                     counter = 0;
@@ -227,6 +235,7 @@ namespace testDatabase
                 equip.PlaceId = 65;
                 equip.StatusId = 2;
                 equip.InstallDate = DateTime.Now;
+                equip.RepairDate = DateTime.Now;
                 db.SaveChanges();
                 _selectedEquipment = equip;
                 Refresh();
@@ -235,21 +244,21 @@ namespace testDatabase
 
         private void ChangeLineComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (ChangeLineComboBox.SelectedValue != null)
+            if (InstallLineComboBox.SelectedValue != null)
             {
-                _selectedLine = (int)ChangeLineComboBox.SelectedValue;
-                ChangeStationComboBox.ItemsSource = MainWindow.GetStationsByLine(_selectedLine);
-                ChangePostComboBox.ItemsSource = null;
+                _selectedLine = (int)InstallLineComboBox.SelectedValue;
+                InstallStationComboBox.ItemsSource = MainWindow.GetStationsByLine(_selectedLine);
+                InstallPostComboBox.ItemsSource = null;
             }
 
         }
 
         private void ChangeStationComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (ChangeStationComboBox.SelectedValue != null)
+            if (InstallStationComboBox.SelectedValue != null)
             {
-                _selectedStation = (int)ChangeStationComboBox.SelectedValue;
-                ChangePostComboBox.ItemsSource = MainWindow.GetPostsByStation(_selectedStation);
+                _selectedStation = (int)InstallStationComboBox.SelectedValue;
+                InstallPostComboBox.ItemsSource = MainWindow.GetPostsByStation(_selectedStation);
             }
         }
 
@@ -265,23 +274,34 @@ namespace testDatabase
                     InstallStackPanel.Visibility = Visibility.Visible;
                     break;
             }
-            ChangeLineComboBox.ItemsSource = MainWindow.GetLines();
+            InstallLineComboBox.ItemsSource = MainWindow.GetLines();
+            InstallEmployeeComboBox.ItemsSource = MainWindow.GetAllEmployees();
         }
 
-        private void DoChangeButton_Click(object sender, RoutedEventArgs e)
+        private void DoInstallButton_Click(object sender, RoutedEventArgs e)
         {
             using (ditsdbContext db = new ditsdbContext())
             {
                 Equipment equip = (from eq in db.Equipment
                                    where eq.Id == _selectedEquipment.Id
                                    select eq).FirstOrDefault();
-                if (ChangeLineComboBox.SelectedValue != null &&
-                    ChangeStationComboBox.SelectedValue != null &&
-                    ChangePostComboBox.SelectedValue != null)
+                if (InstallLineComboBox.SelectedValue != null &&
+                    InstallStationComboBox.SelectedValue != null &&
+                    InstallPostComboBox.SelectedValue != null &&
+                    InstallEmployeeComboBox.SelectedValue != null)
                 {
-                    equip.PlaceId = (int)ChangePostComboBox.SelectedValue;
+                    equip.PlaceId = (int)InstallPostComboBox.SelectedValue;
                     equip.InstallDate = DateTime.Now;
                     equip.StatusId = 1;
+
+                    Maintenance maintenance = new Maintenance
+                    {
+                        MaintenanceTypeId = 2, // Установка
+                        MaintenanceDate = DateTime.Now,
+                        EquipmentId = equip.Id,
+                        EmployeeId = (int)InstallEmployeeComboBox.SelectedValue
+                    };
+                    db.Maintenances.Add(maintenance);
                     db.SaveChanges();
                     _selectedEquipment = equip;
                     Refresh();
@@ -289,8 +309,8 @@ namespace testDatabase
                     //Change Stack Panel
                     counter = 0;
                     InstallStackPanel.Visibility = Visibility.Collapsed;
-                    ChangeStationComboBox.ItemsSource = null;
-                    ChangePostComboBox.ItemsSource = null;
+                    InstallStationComboBox.ItemsSource = null;
+                    InstallPostComboBox.ItemsSource = null;
                 }
             }
         }
