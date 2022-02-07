@@ -61,9 +61,7 @@ namespace testDatabase
             {
                 entity.ToTable("employees");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DepartmentId).HasColumnName("department_id");
 
@@ -334,8 +332,7 @@ namespace testDatabase
 
                 entity.Property(e => e.MaintenanceDate)
                     .HasColumnType("datetime")
-                    .HasColumnName("maintenance_date")
-                    .HasDefaultValueSql("(datefromparts((2000),(1),(1)))");
+                    .HasColumnName("maintenance_date");
 
                 entity.Property(e => e.MaintenanceTypeId).HasColumnName("maintenance_type_id");
 

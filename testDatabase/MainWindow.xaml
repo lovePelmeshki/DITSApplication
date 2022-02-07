@@ -23,18 +23,10 @@
                 </StackPanel>
                 
 
-                <DataGrid x:Name="icindentsDataGrid"  
-                  SelectionMode="Single"
-                  SelectionUnit="FullRow"
-                  SelectedValuePath="Id"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  MouseDoubleClick="icindentsDataGrid_MouseDoubleClick" 
-                  SelectionChanged="icindentsDataGrid_SelectionChanged"
-                  AutoGenerateColumns="False"
-                          MaxHeight="500"
-                          MinHeight="500"      
-                          Margin="5">
+                <DataGrid x:Name="icindentsDataGrid" SelectionMode="Single" SelectionUnit="FullRow" SelectedValuePath="Id"
+                    CanUserAddRows="False" CanUserDeleteRows="False" MouseDoubleClick="icindentsDataGrid_MouseDoubleClick" 
+                    SelectionChanged="icindentsDataGrid_SelectionChanged" AutoGenerateColumns="False" MaxHeight="500" MinHeight="500"      
+                    Margin="5">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Станция" Binding="{Binding Path=StationName, Mode=OneWay}"/>
@@ -84,12 +76,11 @@
                         <DataGridTextColumn Header="Номер оборудования" Binding="{Binding Path=Serial, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Тип оборудования" Binding="{Binding Path=TypeName, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Сотрудник" Binding="{Binding Path=Lastname, Mode=OneWay}"/>
-                    </DataGrid.Columns> 
-                    
+                    </DataGrid.Columns>
+
                 </DataGrid>
             </StackPanel>
         </TabItem>
-        
         <TabItem Header="Оборудование" Width="120" Height="35">
             <StackPanel Orientation="Vertical" Margin="5">
                 <StackPanel Orientation="Horizontal" Height="28" >
@@ -159,7 +150,8 @@
         </TabItem>
         <TabItem Header="Сотрудники" Width="120" Height="35">
             <StackPanel Orientation="Vertical">
-                <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="False">
+                <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="False" SelectionMode="Single" 
+                          SelectionUnit="FullRow" SelectedValuePath="Id" MaxHeight="500" MinHeight="500">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=OneWay}"/>

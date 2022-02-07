@@ -47,23 +47,16 @@ namespace testDatabase
 
                 var incidentInfo = from inc in db.Incidents
                                    from emp in db.Employees
-
                                    where inc.EmployeeId == emp.Id
-
                                    join station in db.Stations
                                    on inc.StationId equals station.Id into stan
                                    from station in stan.DefaultIfEmpty()
-
                                    join post in db.Posts
                                    on inc.PostId equals post.Id into p
                                    from post in p.DefaultIfEmpty()
-
                                    join status in db.IncidentStatuses
                                    on inc.StatusId equals status.Id into st
                                    from status in st.DefaultIfEmpty()
-
-
-
                                    select new
                                    {
                                        Id = inc.Id,
@@ -76,12 +69,8 @@ namespace testDatabase
                                        StationName = station == null ? "---" : station.StationName,
                                        PostName = post == null ? "---" : post.PostName
                                    };
-
                 icindentsDataGrid.ItemsSource = incidentInfo.ToList();
                 IncidentCountTextBox.Text = incidentInfo.ToList().Count.ToString();
-                //var allIcindents = from ic in db.Incidents
-                //                   select ic;
-                //icindentsDataGrid.ItemsSource = allIcindents.ToList();
             };
         }
         private void icindentsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
