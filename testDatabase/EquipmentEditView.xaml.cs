@@ -70,9 +70,9 @@ namespace testDatabase
                                  PostName = post.PostName,
                                  StatusName = status.StatusName,
                                  InstallDate = eq.InstallDate,
-                                 MaintenanceDate = m==null? DateTime.Parse("01.01.2001") : m.MaintenanceDate,
-                                 NextDate = m==null? DateTime.Parse("01.01.2001") : Convert.ToDateTime(m.MaintenanceDate).AddDays((int)mt.Periodicity),
-                                 Employee = emp==null? "---" : emp.Lastname,
+                                 MaintenanceDate = m == null ? DateTime.Parse("01.01.2001") : m.MaintenanceDate,
+                                 NextDate = m == null ? DateTime.Parse("01.01.2001") : Convert.ToDateTime(m.MaintenanceDate).AddDays((int)mt.Periodicity),
+                                 Employee = emp == null ? "---" : emp.Lastname,
                                  RepairDate = eq.RepairDate,
                                  NextRepair = Convert.ToDateTime(eq.RepairDate).AddDays(1825)
                              };
@@ -113,7 +113,7 @@ namespace testDatabase
                                       MaintenanceId = his.LastMaintenanceId,
                                       MaintenanceType = mtype.MaintenanceName,
                                       RepairDate = his.RepairDate
-                                  } ;
+                                  };
                 EquipmentHistoryDataGrid.ItemsSource = historyInfo.ToList();
 
                 //Maintenance maintenance = (from m in db.Maintenances
@@ -128,8 +128,8 @@ namespace testDatabase
                 //string nmdt = nextMaintenanceDate.ToString();
                 ////NextMaintenanceDateTextBox.Text = nextMaintenanceDate.ToString();
 
-                
-                
+
+
 
                 switch (_selectedEquipment.StatusId)
                 {
@@ -188,7 +188,6 @@ namespace testDatabase
             }
 
         }
-
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
             counter++;
@@ -219,8 +218,8 @@ namespace testDatabase
                     int newEquipmentId = (int)ChangeEqComboBox.SelectedValue;
 
                     Equipment mainEquipment = (from eq in db.Equipment
-                                   where eq.Id == _selectedEquipment.Id
-                                   select eq).FirstOrDefault();
+                                               where eq.Id == _selectedEquipment.Id
+                                               select eq).FirstOrDefault();
                     Equipment newEquipment = (from eq in db.Equipment
                                               where eq.Id == newEquipmentId
                                               select eq).FirstOrDefault();
@@ -358,8 +357,8 @@ namespace testDatabase
             using (ditsdbContext db = new ditsdbContext())
             {
                 Equipment equip = (from eq in db.Equipment
-                                  where eq.Id == _selectedEquipment.Id
-                                  select eq).FirstOrDefault();
+                                   where eq.Id == _selectedEquipment.Id
+                                   select eq).FirstOrDefault();
                 equip.PlaceId = 66;
                 equip.StatusId = 3;
                 equip.InstallDate = DateTime.Now;
