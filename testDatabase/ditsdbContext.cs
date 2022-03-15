@@ -6,8 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace testDatabase
 {
+
     public partial class ditsdbContext : DbContext
     {
+        private string fakeconnectionstring = "Server=PELMESHKI_PC\\SQLEXPRESS;Initial Catalog=disdb;Integrated Security=True;Connection Timeout=30;";
+        private string localConnectionString = "Server=PELMESHKI_PC\\SQLEXPRESS;Initial Catalog=ditsdb;Integrated Security=True;Connection Timeout=30;";
+        private string azureConnectionString = "Server=tcp:ditsapp.database.windows.net,1433;Initial Catalog=ditsdb;Persist Security Info=False;User ID=lovepelmeshki;Password=90f8b7rr#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
         public ditsdbContext()
         {
         }
@@ -35,11 +40,17 @@ namespace testDatabase
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            try
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=PELMESHKI_PC\\SQLEXPRESS;Initial Catalog=ditsdb;Integrated Security=True;Connection Timeout=30;");
+                if (!optionsBuilder.IsConfigured)
+                {
+                    optionsBuilder.UseSqlServer(localConnectionString); // <<<------ CONNECTION STRING HERE <<<------
+                }
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

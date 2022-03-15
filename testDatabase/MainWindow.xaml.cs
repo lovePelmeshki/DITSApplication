@@ -19,12 +19,20 @@ namespace testDatabase
         private int _selectedStationFilter = -1;
         public MainWindow()
         {
-            InitializeComponent();
-            RefreshIcintentsData();
-            RefreshEmployeesData();
-            RefreshStationsData();
-            RefreshEquipmentData();
-            RefreshMaintenanceData();
+            try
+            {
+
+                InitializeComponent();
+                RefreshIcintentsData();
+                RefreshEmployeesData();
+                RefreshStationsData();
+                RefreshEquipmentData();
+                RefreshMaintenanceData();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
 
@@ -990,7 +998,7 @@ namespace testDatabase
                     var maintenanceInfo = from main in db.Maintenances
                                           join mtype in db.MaintenanceTypes
                                           on main.MaintenanceTypeId equals mtype.Id
-                                          
+
 
                                           join eq in db.Equipment
                                           on main.EquipmentId equals eq.Id

@@ -7,40 +7,40 @@
         mc:Ignorable="d"
         Title="IncidentNewView" Width="400" SizeToContent="Height">
     <StackPanel Margin="10" Orientation="Vertical">
-        <Button Name="AutoFillButton" Content="AutoFill" Margin="5" Click="AutoFillButton_Click"/>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Title</Label>
-            <TextBox Name="TitleTextBox"/>
+        <Button Name="AutoFillButton" Content="AutoFill" Margin="5" Click="AutoFillButton_Click" Visibility="Collapsed"/>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Заголовок: *</Label>
+            <TextBox Name="TitleTextBox" Height="24"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Линия</Label>
-            <ComboBox Name="LineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="LineComboBox_SelectionChanged"/>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Линия: </Label>
+            <ComboBox Name="LineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="LineComboBox_SelectionChanged" Height="24"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Станция</Label>
-            <ComboBox Name="StationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName" SelectionChanged="StationComboBox_SelectionChanged"/>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Станция: </Label>
+            <ComboBox Name="StationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName" SelectionChanged="StationComboBox_SelectionChanged" Height="24"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Пост</Label>
-            <ComboBox x:Name="PostComboBox" SelectedValuePath="Id" DisplayMemberPath="PostName"/>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Пост: </Label>
+            <ComboBox x:Name="PostComboBox" SelectedValuePath="Id" DisplayMemberPath="PostName" Height="24"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Description</Label>
-            <TextBox Name="DescriptionTextBox"  Height="80"/>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Описание: </Label>
+            <TextBox Name="DescriptionTextBox"  Height="80" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Open date</Label>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Дата: </Label>
             <DatePicker Name="OpenDatePicker"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Employee</Label>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Сотрудник: </Label>
             <ComboBox Name="EmployeeComboBox" DisplayMemberPath="Firstname" SelectedValuePath="Id"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="5">
-            <Label>Status</Label>
+        <StackPanel Orientation="Vertical" Margin="3">
+            <Label>Статус: </Label>
             <ComboBox Name="StatusComboBox" DisplayMemberPath="Description" SelectedValuePath="Id"/>
         </StackPanel>
-        <Button Name="CreateIncidentButton" Content="Create" Margin="5" Height="40" Click="CreateIncidentButton_Click"></Button>
+        <Button Name="CreateIncidentButton" Content="Создать" Margin="3 25 10 10" Height="40" Click="CreateIncidentButton_Click" Background="#FFD3EAD2"  ></Button>
 
 
     </StackPanel>

@@ -25,7 +25,7 @@
 
                 <DataGrid x:Name="icindentsDataGrid" SelectionMode="Single" SelectionUnit="FullRow" SelectedValuePath="Id"
                     CanUserAddRows="False" CanUserDeleteRows="False" MouseDoubleClick="icindentsDataGrid_MouseDoubleClick" 
-                    SelectionChanged="icindentsDataGrid_SelectionChanged" AutoGenerateColumns="False" MaxHeight="500" MinHeight="500"      
+                    SelectionChanged="icindentsDataGrid_SelectionChanged" AutoGenerateColumns="False" Height="Auto" Width="Auto"      
                     Margin="5">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
