@@ -7,6 +7,47 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1400">
     <TabControl>
+        <TabItem Header="Оборудование" Width="120" Height="35">
+            <StackPanel Orientation="Vertical" Margin="5">
+                <StackPanel Orientation="Horizontal" Height="28" >
+                    <Label Content="Фильтры: " VerticalContentAlignment="Center"/>
+                    <ComboBox Name="EquipmentTypeFilterComboBox" Focusable="False" IsEditable="True"
+                              IsReadOnly="True" VerticalContentAlignment="Center" Text="Тип оборудования"
+                              Width="200" DisplayMemberPath="TypeName"  SelectedValuePath="Id" SelectionChanged="EquipmentTypeFilterComboBox_SelectionChanged"/>
+                    <ComboBox Name="EquipmentStationFilterComboBox" Focusable="False" IsEditable="True"
+                              IsReadOnly="True" VerticalContentAlignment="Center" Text="Станция"
+                              Width="200" DisplayMemberPath="StationName"  SelectedValuePath="Id" SelectionChanged="EquipmentStationFilterComboBox_SelectionChanged"/>
+                    <ComboBox Name="EquipmentStatusFilterComboBox" Focusable="False" IsEditable="True"
+                              IsReadOnly="True" VerticalContentAlignment="Center" Text="Статус"
+                              Width="200" DisplayMemberPath="StatusName"  SelectedValuePath="Id" SelectionChanged="EquipmentStatusFilterComboBox_SelectionChanged"/>
+                    <Button Name="RefreshEquipmentButton" Content="Сбросить фильтры"  Width="120" Margin="5 0 0 0" Click="RefreshEquipmentButton_Click"/>
+                </StackPanel>
+                
+                <DataGrid x:Name="EquipmentDataGrid" 
+                          MouseDoubleClick="EquipmentDataGrid_MouseDoubleClick"
+                          SelectionChanged="EquipmentDataGrid_SelectionChanged"
+                          SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  SelectedValuePath="Id"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                          MaxHeight="500"
+                          MinHeight="500"
+                          Margin="5"></DataGrid>
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="AddNewEquipmentButton" Height="40" Width="120" Content="Добавить" Margin="2"/>
+                        <Button Name="EditEquipmentButton" Height="40" Width="120" Content="Редактировать" Click="EditEquipmentButton_Click" Margin="2"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 20 0">
+                        <TextBlock Text="Количество оборудования:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Name="EquipmentCountTextBox" HorizontalAlignment="Center" VerticalAlignment="Center"   Margin="10"/>
+
+                    </StackPanel>
+                </Grid>
+                
+            </StackPanel>
+        </TabItem>
         <TabItem Header="Заявки" Width="120" Height="35">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal" Height="28">
@@ -79,47 +120,6 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-            </StackPanel>
-        </TabItem>
-        <TabItem Header="Оборудование" Width="120" Height="35">
-            <StackPanel Orientation="Vertical" Margin="5">
-                <StackPanel Orientation="Horizontal" Height="28" >
-                    <Label Content="Фильтры: " VerticalContentAlignment="Center"/>
-                    <ComboBox Name="EquipmentTypeFilterComboBox" Focusable="False" IsEditable="True"
-                              IsReadOnly="True" VerticalContentAlignment="Center" Text="Тип оборудования"
-                              Width="200" DisplayMemberPath="TypeName"  SelectedValuePath="Id" SelectionChanged="EquipmentTypeFilterComboBox_SelectionChanged"/>
-                    <ComboBox Name="EquipmentStationFilterComboBox" Focusable="False" IsEditable="True"
-                              IsReadOnly="True" VerticalContentAlignment="Center" Text="Станция"
-                              Width="200" DisplayMemberPath="StationName"  SelectedValuePath="Id" SelectionChanged="EquipmentStationFilterComboBox_SelectionChanged"/>
-                    <ComboBox Name="EquipmentStatusFilterComboBox" Focusable="False" IsEditable="True"
-                              IsReadOnly="True" VerticalContentAlignment="Center" Text="Статус"
-                              Width="200" DisplayMemberPath="StatusName"  SelectedValuePath="Id" SelectionChanged="EquipmentStatusFilterComboBox_SelectionChanged"/>
-                    <Button Name="RefreshEquipmentButton" Content="Сбросить фильтры"  Width="120" Margin="5 0 0 0" Click="RefreshEquipmentButton_Click"/>
-                </StackPanel>
-                
-                <DataGrid x:Name="EquipmentDataGrid" 
-                          MouseDoubleClick="EquipmentDataGrid_MouseDoubleClick"
-                          SelectionChanged="EquipmentDataGrid_SelectionChanged"
-                          SelectionMode="Single"
-                  SelectionUnit="FullRow"
-                  SelectedValuePath="Id"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                          MaxHeight="500"
-                          MinHeight="500"
-                          Margin="5"></DataGrid>
-                <Grid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Name="AddNewEquipmentButton" Height="40" Width="120" Content="Добавить" Margin="2"/>
-                        <Button Name="EditEquipmentButton" Height="40" Width="120" Content="Редактировать" Click="EditEquipmentButton_Click" Margin="2"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 20 0">
-                        <TextBlock Text="Количество оборудования:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Name="EquipmentCountTextBox" HorizontalAlignment="Center" VerticalAlignment="Center"   Margin="10"/>
-
-                    </StackPanel>
-                </Grid>
-                
             </StackPanel>
         </TabItem>
         <TabItem Header="Станции" Width="120" Height="35">

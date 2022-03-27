@@ -44,7 +44,7 @@ namespace testDatabase
             {
                 if (!optionsBuilder.IsConfigured)
                 {
-                    optionsBuilder.UseSqlServer(localConnectionString); // <<<------ CONNECTION STRING HERE <<<------
+                    optionsBuilder.UseSqlServer(azureConnectionString); // <<<------ CONNECTION STRING HERE <<<------
                 }
             } catch (Exception e)
             {
